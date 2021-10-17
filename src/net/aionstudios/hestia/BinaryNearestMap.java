@@ -21,7 +21,10 @@ public class BinaryNearestMap<K extends Comparable<K>, V> {
     }
     
     public ComparablePair<K, V> get(int idx) {
-    	return terms.get(idx);
+    	if (terms.size() > idx && idx > 0) {
+    		return terms.get(idx);
+    	}
+    	return null;
     }
 
     public void put(K key, V value) {
