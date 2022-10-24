@@ -1,10 +1,11 @@
-package net.aionstudios.hestia;
+package net.aionstudios.hestia.data;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class BinaryNearestMap<K extends Comparable<K>, V> {
+	
     private List<ComparablePair<K, V>> terms;
 
     public BinaryNearestMap() {
@@ -14,7 +15,7 @@ public class BinaryNearestMap<K extends Comparable<K>, V> {
     public boolean containsKey(K key) {
     	int idxNearest = nearestMatch(key);
     	ComparablePair<K, V> nearest = idxNearest > -1 ? terms.get(idxNearest) : null;
-    	if (nearest != null && nearest.getKey().compareTo(key) == 0) {
+    	if (nearest != null && nearest.getFirst().compareTo(key) == 0) {
     		return true;
     	}
     	return false;
@@ -30,8 +31,8 @@ public class BinaryNearestMap<K extends Comparable<K>, V> {
     public void put(K key, V value) {
     	int idxNearest = nearestMatch(key);
     	ComparablePair<K, V> nearest = idxNearest > -1 ? terms.get(idxNearest) : null;
-    	if (nearest != null && nearest.getKey().compareTo(key) == 0) {
-    		nearest.setValue(value);
+    	if (nearest != null && nearest.getFirst().compareTo(key) == 0) {
+    		terms.set(idxNearest, new ComparablePair<K, V>(key ,value));
     	} else {
     		terms.add(idxNearest+1, new ComparablePair<K, V>(key ,value));
     	}
@@ -40,7 +41,7 @@ public class BinaryNearestMap<K extends Comparable<K>, V> {
     public ComparablePair<K, V> remove(K key) {
     	int idxNearest = nearestMatch(key);
     	ComparablePair<K, V> nearest = idxNearest > -1 ? terms.get(idxNearest) : null;
-    	if (nearest != null && nearest.getKey().compareTo(key) == 0) {
+    	if (nearest != null && nearest.getFirst().compareTo(key) == 0) {
     		terms.remove(nearest);
     	}
     	return nearest;
@@ -53,4 +54,5 @@ public class BinaryNearestMap<K extends Comparable<K>, V> {
         if (index < terms.size()) return index;
         return -1;
     }
+    
 }
